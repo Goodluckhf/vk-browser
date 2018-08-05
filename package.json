@@ -27,6 +27,9 @@
     "test:coverage:dev": "nyc --reporter=text mocha --ui bdd --reporter spec --require babel-register ./test/*.test.js ./test/**/*.test.js",
     "precommit": "lint-staged"
   },
+  "lint-staged": {
+    "*.js": "eslint"
+  },
   "babel": {
     "retainLines": true,
     "presets": [
