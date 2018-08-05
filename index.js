@@ -1,7 +1,8 @@
 import puppeteer    from 'puppeteer';
 import logger       from './lib/logger';
 import login        from './actions/login';
-import createAdPost from './actions/createAdPost';
+//import createAdPost from './actions/createAdPost';
+import getPostStatus from './actions/getPostStatus';
 
 (async () => {
 	let browser;
@@ -15,7 +16,26 @@ import createAdPost from './actions/createAdPost';
 			password: 'Sanko001',
 		});
 		
-		const result = await createAdPost(page, {
+		let result = await getPostStatus(page, { postId: 2526479 });
+		logger.info({
+			message: 'Статус поста: 2526479',
+			result,
+		});
+		
+		result = await getPostStatus(page, { postId: 2311008 });
+		logger.info({
+			message: 'Статус поста: 2311008',
+			result,
+		});
+		
+		result = await getPostStatus(page, { postId: 2306969 });
+		logger.info({
+			message: 'Статус поста: 2306969',
+			result,
+		});
+		
+		
+		/*const result = await createAdPost(page, {
 			imageSrc: './img/test1.jpg',
 			text    : `🔥 Девочки, классный сайт с постельным бельем! 👇
 - более 105 ярких рисунков и 4 размера комплектов
@@ -24,12 +44,7 @@ import createAdPost from './actions/createAdPost';
 - в подарок дарят еще полотенце
 Заходите, выбирайте - https://vk.cc/7HrbXC`,
 			postName: 'postel',
-		});
-		
-		logger.info({
-			message: 'Пост отправлен на модерацию',
-			result,
-		});
+		});*/
 	} catch (error) {
 		logger.error({ error });
 		//await browser.close();
