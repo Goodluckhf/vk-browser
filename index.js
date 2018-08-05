@@ -7,7 +7,9 @@ import createAdPost from './helpers/createAdPost';
 	let browser;
 	try {
 		browser = await puppeteer.launch({ headless: false });
-		const page = await browser.newPage();
+		
+		const context = await browser.createIncognitoBrowserContext();
+		const page    = await context.newPage();
 		await login(page, {
 			login   : '77786271090',
 			password: 'Sanko001'
