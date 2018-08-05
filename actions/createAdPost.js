@@ -1,4 +1,5 @@
 import logger from '../lib/logger';
+import { getParam } from '../helpers/link';
 
 export default async (page, { imageSrc, text, postName }) => {
 	logger.info('Переходим в маркет платформу');
@@ -43,6 +44,14 @@ export default async (page, { imageSrc, text, postName }) => {
 	
 	await page.click('#exchange_status_btn');
 	await page.waitForSelector('#box_layer button.flat_button');
+	await page.waitForFunction(() => {
+		const controls = document.querySelector('#box_layer .box_controls_wrap');
+		if (!controls) {
+			return false;
+		}
+		
+		return controls.style.display === 'block';
+	});
 	await page.waitFor(500);
 	await page.click('#box_layer button.flat_button');
 	
@@ -50,7 +59,7 @@ export default async (page, { imageSrc, text, postName }) => {
 	// А при успехе попап должен исчезнуть
 	await page.waitForFunction(() => {
 		const errorElement = document.querySelector('#box_layer #exchange_error');
-		const popup        = document.querySelector('#box_layer');
+		const popup        = document.querySelector('#box_layer button.flat_button');
 		return !!errorElement || !popup;
 	});
 	
@@ -64,12 +73,11 @@ export default async (page, { imageSrc, text, postName }) => {
 		return errValue.innerText;
 	});
 	
-	if (!error) {
-		return;
+	if (error) {
+		throw new Error(error);
 	}
 	
-	logger.error({
-		message: 'Ошибка при Отправки записи на модерацию',
-		error,
-	});
+	return {
+		postId: getParam(page.url(), 'ad_id'),
+	};
 };

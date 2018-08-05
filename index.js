@@ -15,7 +15,7 @@ import createAdPost from './actions/createAdPost';
 			password: 'Sanko001',
 		});
 		
-		await createAdPost(page, {
+		const result = await createAdPost(page, {
 			imageSrc: './img/test1.jpg',
 			text    : `🔥 Девочки, классный сайт с постельным бельем! 👇
 - более 105 ярких рисунков и 4 размера комплектов
@@ -24,6 +24,11 @@ import createAdPost from './actions/createAdPost';
 - в подарок дарят еще полотенце
 Заходите, выбирайте - https://vk.cc/7HrbXC`,
 			postName: 'postel',
+		});
+		
+		logger.info({
+			message: 'Пост отправлен на модерацию',
+			result,
 		});
 	} catch (error) {
 		logger.error({ error });
