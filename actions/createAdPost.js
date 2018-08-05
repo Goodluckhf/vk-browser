@@ -51,25 +51,25 @@ export default async (page, { imageSrc, text, postName }) => {
 	await page.waitForFunction(() => {
 		const errorElement = document.querySelector('#box_layer #exchange_error');
 		const popup        = document.querySelector('#box_layer');
-		return !!errorElement || !popup
+		return !!errorElement || !popup;
 	});
 	
 	const error = await page.evaluate(() => {
 		const errValue = document.querySelector('#box_layer #exchange_error');
 		
-		if (! errValue) {
+		if (!errValue) {
 			return null;
 		}
 		
 		return errValue.innerText;
 	});
 	
-	if (! error) {
+	if (!error) {
 		return;
 	}
 	
 	logger.error({
 		message: 'Ошибка при Отправки записи на модерацию',
-		error  : error,
+		error,
 	});
 };

@@ -12,7 +12,7 @@ import createAdPost from './actions/createAdPost';
 		const page    = await context.newPage();
 		await login(page, {
 			login   : '77786271090',
-			password: 'Sanko001'
+			password: 'Sanko001',
 		});
 		
 		await createAdPost(page, {
@@ -25,7 +25,6 @@ import createAdPost from './actions/createAdPost';
 Заходите, выбирайте - https://vk.cc/7HrbXC`,
 			postName: 'postel',
 		});
-		
 	} catch (error) {
 		logger.error({ error });
 		//await browser.close();
