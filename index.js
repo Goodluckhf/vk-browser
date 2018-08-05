@@ -1,7 +1,7 @@
-import puppeteer  from 'puppeteer';
-import logger    from './lib/logger';
-import login     from './helpers/login';
-import createAdPost from './helpers/createAdPost';
+import puppeteer    from 'puppeteer';
+import logger       from './lib/logger';
+import login        from './actions/login';
+import createAdPost from './actions/createAdPost';
 
 (async () => {
 	let browser;

@@ -46,15 +46,12 @@ export default async (page, { imageSrc, text, postName }) => {
 	await page.waitFor(500);
 	await page.click('#box_layer button.flat_button');
 	
+	// Может быть ошибки
+	// А при успехе попап должен исчезнуть
 	await page.waitForFunction(() => {
 		const errorElement = document.querySelector('#box_layer #exchange_error');
-		if (errorElement) {
-			return true;
-		}
-		
-		// TODO: Добавить не ошибочную ситуацию
-		
-		return false;
+		const popup        = document.querySelector('#box_layer');
+		return !!errorElement || !popup
 	});
 	
 	const error = await page.evaluate(() => {
