@@ -35,4 +35,44 @@ export default async (page, { imageSrc, text, postName }) => {
 	const navigationToPost = page.waitForNavigation();
 	await page.click('#pb_send');
 	await navigationToPost;
+	
+	logger.info({
+		message: 'Отправляем на модерацию',
+		postUrl: page.url(),
+	});
+	
+	await page.click('#exchange_status_btn');
+	await page.waitForSelector('#box_layer button.flat_button');
+	await page.waitFor(500);
+	await page.click('#box_layer button.flat_button');
+	
+	await page.waitForFunction(() => {
+		const errorElement = document.querySelector('#box_layer #exchange_error');
+		if (errorElement) {
+			return true;
+		}
+		
+		// TODO: Добавить не ошибочную ситуацию
+		
+		return false;
+	});
+	
+	const error = await page.evaluate(() => {
+		const errValue = document.querySelector('#box_layer #exchange_error');
+		
+		if (! errValue) {
+			return null;
+		}
+		
+		return errValue.innerText;
+	});
+	
+	if (! error) {
+		return;
+	}
+	
+	logger.error({
+		message: 'Ошибка при Отправки записи на модерацию',
+		error  : error,
+	});
 };

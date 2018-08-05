@@ -6,7 +6,7 @@ import createAdPost from './helpers/createAdPost';
 (async () => {
 	let browser;
 	try {
-		browser = await puppeteer.launch({ headless: false });
+		browser = await puppeteer.launch({ headless: false, devtools: true });
 		
 		const context = await browser.createIncognitoBrowserContext();
 		const page    = await context.newPage();
@@ -16,15 +16,18 @@ import createAdPost from './helpers/createAdPost';
 		});
 		
 		await createAdPost(page, {
-			imageSrc: './img/test.jpg',
-			text    : `Господи, дай сил тому, у кого трудности...
-						Дай здоровье тем, кто болеет...
-						Дай улыбку тем, у кого горечь и печаль...`,
-			postName: 'test1',
+			imageSrc: './img/test1.jpg',
+			text    : `🔥 Девочки, классный сайт с постельным бельем! 👇
+- более 105 ярких рисунков и 4 размера комплектов
+- 100% хлопок, после стирки рисунок держит
+- нет предоплаты - оплата после проверки посылки
+- в подарок дарят еще полотенце
+Заходите, выбирайте - https://vk.cc/7HrbXC`,
+			postName: 'postel',
 		});
 		
 	} catch (error) {
 		logger.error({ error });
-		await browser.close();
+		//await browser.close();
 	}
 })();
