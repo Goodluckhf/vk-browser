@@ -7,8 +7,13 @@ const vkStatusHash = Object.freeze({
 });
 
 export default async (page, { postId }) => {
-	logger.info('Переходим на страницу поста');
-	await page.goto(`https://vk.com/adsmarket?act=post&ad_id=${postId}`, { waitUntil: 'networkidle2' });
+	const postUrl = `https://vk.com/adsmarket?act=post&ad_id=${postId}`;
+	logger.info({
+		message: 'Переходим на страницу поста',
+		postUrl,
+	});
+	
+	await page.goto(postUrl, { waitUntil: 'networkidle2' });
 	
 	const vkStatus = await page.evaluate(() => {
 		const statusElement = document.querySelector('span#exchange_info_status');
